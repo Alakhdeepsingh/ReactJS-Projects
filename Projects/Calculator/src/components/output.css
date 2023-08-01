@@ -1,0 +1,17 @@
+.component-display {
+    background-color: #858694;
+    color: #fff;
+    text-align: right;
+    font-weight: 200;
+    width: 100%;
+    
+  
+  }
+  
+  .component-display > div {
+    font-size: 2.5rem;
+    padding: 0.2rem 0.7rem 0.1rem 0.5rem;
+    color: #fff;
+    word-wrap: break-word;  
+    
+  }

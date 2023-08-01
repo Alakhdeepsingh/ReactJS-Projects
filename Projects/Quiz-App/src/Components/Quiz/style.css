@@ -11,11 +11,9 @@
   --transition: all 0.3s linear;
   --spacing: 0.1rem;
   --radius: 0.25rem;
-  /* --max-width: 500px; */
-  /* --fixed-width: 620px; */
 }
 
-.modal-container {
+.main {
   position: fixed;
   top: 0;
   left: 0;
@@ -28,7 +26,17 @@
   opacity: 0;
   transition: all 0.3s linear;
   transition: var(--transition);
-  z-index: -1;
+  z-index: -99;
+  background: #fff;
+  background: var(--clr-white);
+  width: 90vw;
+  max-width: 500px;
+  max-width: 500px;
+  padding: 3rem;
+  border-radius: 0.25rem;
+  border-radius: var(--radius);
+  text-align: center;
+  position: relative;
 }
 
 *,
@@ -48,22 +56,9 @@ body {
   line-height: 1.5;
   font-size: 0.875rem;
 }
-.modal-content {
-  background: #fff;
-  background: var(--clr-white);
-  width: 90vw;
-  max-width: 500px;
-  max-width: 500px;
-  padding: 3rem;
-  border-radius: 0.25rem;
-  border-radius: var(--radius);
-  text-align: center;
-  position: relative;
-}
-.close-btn,
+
 .correct-answers,
-.next-question,
-.submit-btn {
+.next-question {
   font-size: 1rem;
   text-transform: capitalize;
   letter-spacing: 0.1rem;
@@ -71,6 +66,7 @@ body {
   margin-left: auto;
 }
 .quiz {
+  margin-top: 50px;
   width: 90vw;
   max-width: 1170px;
   margin: 4rem auto;
@@ -81,13 +77,14 @@ body {
   padding: 3rem;
 }
 .quiz-small {
-  max-width: 500px !important;
+  max-width: 500px;
 }
 .correct-answers {
   margin-bottom: 2rem;
   text-align: right;
   color: #25bb32;
   color: var(--clr-green-dark);
+  letter-spacing: var(--spacing);
 }
 article {
   display: block;
@@ -130,9 +127,6 @@ article {
   cursor: pointer;
 }
 
-/* .quiz {/ */
-/* width: 9vw; */
-/* } */
 .loader-container {
   position: fixed;
   top: 50%;
@@ -141,16 +135,20 @@ article {
   z-index: 9999;
 }
 
-/* @media screen and (min-width: 800px) body, h4 {
-  font-size: 1rem;
-} */
-
-h2 {
+.middle {
+  font-size: 2.5rem;
   text-align: center;
   margin-bottom: 2rem;
   line-height: 1.5;
   text-transform: none;
 }
-.middle {
-  font-size: 2.5rem;
+@media screen and (min-width: 800px) {
+  .middle {
+    line-height: 1.5;
+  }
+}
+@media screen and (min-width: 800px) {
+  .middle {
+    font-size: 2.5rem;
+  }
 }

@@ -1,14 +1,32 @@
 import React from "react";
-import "./quiz.css";
+import "./style.css";
 import { useState, useEffect } from "react";
+import { CONGRATS_PAGE } from "../../Constant";
 
 const Quiz = (props) => {
   const { quizData, loading } = props;
   const [quizCompleted, setQuizCompleted] = useState(false);
-  const [shuffledOptions, setShuffledOptions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [shuffledOptions, setShuffledOptions] = useState([]);
 
-  function shuffleOptions(array) {
+  const reset = () => {
+    setQuizCompleted(false);
+  };
+  useEffect(() => {
+    // Reset shuffledOptions whenever quizData changes (start the quiz again)
+    if (quizData && quizData.length > 0) {
+      const currentQuestion = quizData[currentQuestionIndex];
+      const allOptions = [
+        currentQuestion.correct_answer,
+        ...currentQuestion.incorrect_answers,
+      ];
+
+      const temp = shuffleOptions(allOptions);
+      setShuffledOptions(temp);
+    }
+  }, [quizData, currentQuestionIndex, setShuffledOptions]);
+
+  const shuffleOptions = (array) => {
     const shuffledArray = [...array]; // Create a copy of the original array to avoid mutating it directly
     for (let i = shuffledArray.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -18,38 +36,23 @@ const Quiz = (props) => {
       ];
     }
     return shuffledArray;
-  }
-
-  useEffect(() => {
-    if (quizCompleted) {
-      return;
-    }
-    if (quizData && quizData.length > 0) {
-      const currentQuestion = quizData[currentQuestionIndex];
-      const allOptions = [
-        currentQuestion.correct_answer,
-        ...currentQuestion.incorrect_answers,
-      ];
-
-      const temp = shuffleOptions(allOptions);
-      console.log(temp);
-      setShuffledOptions(temp);
-    }
-  }, [quizData, currentQuestionIndex]);
+  };
 
   const startQuiz = (e) => {
     e.preventDefault();
+
+    // setCurrentQuestionIndex(0);
     if (currentQuestionIndex < quizData.length - 1) {
       setCurrentQuestionIndex((prev) => prev + 1);
     } else if (currentQuestionIndex === quizData.length - 1) {
       setQuizCompleted(true);
-      props.setPageNumber(3);
+      props.setPageNumber(CONGRATS_PAGE);
     }
+    reset();
   };
 
   const handleAnswerClick = (answer) => {
     const correctAnswer = quizData[currentQuestionIndex].correct_answer;
-
     const userAnsweredCorrectly = answer === correctAnswer;
 
     if (currentQuestionIndex < quizData.length - 1 && !userAnsweredCorrectly) {
@@ -61,22 +64,20 @@ const Quiz = (props) => {
     setCurrentQuestionIndex((prev) => prev + 1);
     if (currentQuestionIndex === quizData.length - 1) {
       setQuizCompleted(true);
-      props.setPageNumber(3);
+      props.setPageNumber(CONGRATS_PAGE);
+      setCurrentQuestionIndex(0);
+      // props.setAnsweredCorrectly(0);
     }
   };
-  console.log(loading);
   return (
-    props.isShowing &&
     !loading &&
-    !quizCompleted &&
     quizData &&
-    quizData.length > 0 &&
-    currentQuestionIndex < quizData.length &&
-    props.loading === false && (
+    props.loading === false &&
+    props.isShowing && (
       <main>
-        <div className="modal-container">
+        {/* <div className="modal-container">
           <div className="modal-content"></div>
-        </div>
+        </div> */}
         <section className="quiz">
           <p className="correct-answers">
             correct answers : {props.answeredCorrectly}/{currentQuestionIndex}
@@ -85,7 +86,9 @@ const Quiz = (props) => {
             <h2
               className="middle"
               dangerouslySetInnerHTML={{
-                __html: quizData[currentQuestionIndex].question,
+                __html: quizData[currentQuestionIndex]
+                  ? quizData[currentQuestionIndex].question
+                  : "",
               }}
             ></h2>
             <div className="btn-container">

@@ -1,9 +1,7 @@
 :root {
   --clr-grey-10: #f1f5f8;
-  /* --max-width: 1170px; */
   --radius: 0.25rem;
   --spacing: 0.1rem;
-  /* Add other custom properties and their values if needed */
 }
 
 .quiz {
@@ -17,20 +15,13 @@
   border-radius: var(--radius);
   padding: 3rem;
 }
-/* .quiz-small { */
-/* max-width: 1170px !important; */
-/* } */
 
 h2 {
-  letter-spacing: 0.1rem;
   letter-spacing: var(--spacing);
-  text-transform: capitalize;
-  line-height: 1.25;
-  margin-bottom: 0.75rem;
 }
 .helloworld {
-  font-size: 2rem;
-  /* text-align: center; */
+  font-size: 2.5rem;
+  text-align: left;
 }
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
@@ -52,45 +43,21 @@ body {
   border-radius: 0.25rem;
   border-radius: var(--radius);
 }
-/* .quiz-small {
-  max-width: 500px;
-} */
+
 .form-control label {
   display: block;
   text-transform: capitalize;
   font-weight: 500;
+  /* color: #324d67; */
   color: #324d67;
-  color: var(--clr-grey-3);
   margin-bottom: 0.5rem;
 }
-*,
-:after,
-:before {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  background: #f1f5f8;
-  background: var(--clr-grey-10);
-  color: #102a42;
-  color: var(--clr-grey-1);
-  line-height: 1.5;
-  font-size: 0.875rem;
-}
+
 .form-control,
 .setup-form h2 {
   margin-bottom: 2rem;
 }
 
-.submit-btn {
-  width: 100%;
-  margin-top: 3rem;
-}
-.close-btn,
-.next-question,
 .submit-btn {
   border-radius: 0.25rem;
   border-radius: var(--radius);
@@ -99,7 +66,7 @@ body {
   display: block;
   width: 100%;
   margin-left: auto;
-  margin-top: 2rem;
+  margin-top: 3rem;
   font-weight: 700;
   background: #ffb100;
   color: #222;
@@ -107,63 +74,35 @@ body {
   transition: all 0.3s linear;
   transition: var(--transition);
   cursor: pointer;
-}
-button {
-  border-width: 20px;
-  border-style: outset;
-}
-.close-btn,
-.correct-answers,
-.next-question,
-.submit-btn {
   font-size: 1rem;
-  text-transform: capitalize;
-  letter-spacing: 0.1rem;
-  letter-spacing: var(--spacing);
+  letter-spacing: 1.5px;
 }
 
-button {
-  border-width: 2px;
-  border-style: outset;
-}
 main {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-height: 100vh;
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 1rem;
 }
 
-section {
-  display: block;
-}
-
-.App {
-  text-align: left;
-}
 .style {
   background-color: #f1f5f8;
 }
 
-.quiz-small {
-  background-color: white;
-}
-
-.helloworld {
-  width: max-content;
-  margin-right: auto;
-  font-size: 2.5rem;
-}
-
-/* @media screen and (min-width: 800px)
-h1, h2, h3, h4 {
-    line-height: 1;
-}
-
-@media screen and (min-width: 800px)
-h2 {
+@media screen and (min-width: 800px) {
+  .helloworld {
     font-size: 2.5rem;
-} */
+  }
+}
 
-/* @media screen and (min-width: 800px) .helloworld {
-  font-size: 2.5rem;
-} */
+@media screen and (min-width: 800px) {
+  h2 {
+    line-height: 1;
+  }
+}

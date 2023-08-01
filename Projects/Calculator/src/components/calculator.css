@@ -1,0 +1,5 @@
+.custom-calculator{
+    flex-direction: column;
+    display: flex;
+    height: 100%;
+}

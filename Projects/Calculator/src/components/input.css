@@ -1,0 +1,19 @@
+.component-keypad {
+    background-color: #858694;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin: auto;
+    width: 100%;
+  }
+  
+  
+  .container {
+    width: 100%;
+    margin-bottom: 0px;
+    flex: 1 0 auto;
+    display: flex;
+  }
+  
+  
