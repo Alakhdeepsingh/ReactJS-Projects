@@ -7,6 +7,6 @@ export const CATEGORY_OPTIONS = [
 ];
 export const DIFFICULTY_OPTIONS = ["easy", "medium", "hard"];
 
-export const QUIZ_PAGE = "1";
-export const QUESTIONS_PAGE = "2";
-export const CONGRATS_PAGE = "3";
+export const QUIZ_PAGE = 1;
+export const QUESTIONS_PAGE = 2;
+export const CONGRATS_PAGE = 3;

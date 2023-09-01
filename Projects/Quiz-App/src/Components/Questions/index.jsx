@@ -1,64 +1,66 @@
 import React, { useState } from "react";
 import "./style.css";
 import { Oval } from "react-loader-spinner";
+import { useSelector, useDispatch } from "react-redux";
+import { setPageNumber } from "../../redux/slices/pageNumberSlice";
+import { setLoading } from "../../redux/slices/loadingSlice";
+import { setQuizData } from "../../redux/slices/quizDataSlice";
 import {
   CATEGORY_OPTIONS,
   DIFFICULTY_OPTIONS,
   DEFAULT_INPUT,
 } from "../../Constant";
 import { QUIZ_PAGE, QUESTIONS_PAGE } from "../../Constant";
-const Question = (props) => {
-  // Destructuring props to extract necessary values
-  const {
-    loading,
-    handleLoading,
-    setQuizData,
-    isShowing,
-    setPageNumber,
-    setAnsweredCorrectly,
-  } = props;
+import { setAnsweredCorrectly } from "../../redux/slices/answeredCorrectlySlice";
+import { selectStore } from "../../loadingSelector";
+
+const Question = () => {
+  // Get the dispatch function
+  const dispatch = useDispatch();
+  const store3 = useSelector(selectStore);
 
   // State variables to store user inputs and manage error state
   const [error, setError] = useState(false);
-  const [category, setCategory] = useState(CATEGORY_OPTIONS[0].label);
   const [difficulty, setDifficulty] = useState(DIFFICULTY_OPTIONS[0]);
   const [inputValue, setinputValue] = useState(DEFAULT_INPUT);
+  const [category, setcategory] = useState(CATEGORY_OPTIONS[0]);
 
   // Function to handle the form submission and fetch quiz data
   const startQuiz = (e) => {
     e.preventDefault();
-    // Setting loading state to true to show the loader while fetching data
-    handleLoading(true);
-    setAnsweredCorrectly(0);
-    setQuizData(null);
+    dispatch(setPageNumber(QUIZ_PAGE));
+    dispatch(setLoading(true));
+    dispatch(setAnsweredCorrectly(0));
+    dispatch(setQuizData(null));
     fetchData(); // Fetch quiz data from API
-    setPageNumber(QUESTIONS_PAGE); // Move to the next page of the quiz((
+    dispatch(setPageNumber(QUESTIONS_PAGE)); // Move to the next page of the quiz((
     setError(false);
   };
 
   // Function to fetch quiz data from the API
   const fetchData = async () => {
     try {
-      handleLoading(true);
+      dispatch(setLoading(true));
 
       // Set loading state to true before starting the fetch
       const response = await fetch(
-        `https://opentdb.com/api.php?amount=${inputValue}&category=${CATEGORY_OPTIONS[0].value}&difficulty=${difficulty}&type=multiple`
+        `https://opentdb.com/api.php?amount=${inputValue}&category=${category.value}&difficulty=${difficulty}&type=multiple`
       );
       const data = await response.json();
 
       // If no questions were returned from the API, show an error and go back to the setup page
       if (data.results.length < 1) {
         setError("Can't Generate Questions, Please Try Different Options");
-        setPageNumber(QUIZ_PAGE);
-        setCategory(category);
+        dispatch(setPageNumber(QUIZ_PAGE));
         setDifficulty(difficulty);
       }
-      setQuizData(data.results); // Update the quiz data in the parent component
-      handleLoading(false); // Set loading state to false after fetching data
+
+      dispatch(setQuizData(data.results));
+      // Update the quiz data in the parent component
+      dispatch(setLoading(false));
     } catch (error) {
       console.error("Error fetching data:", error);
-      handleLoading(false); // Set loading state to false in case of an error
+      dispatch(setLoading(false));
     }
   };
 
@@ -69,7 +71,18 @@ const Question = (props) => {
 
   // Function to handle changes in the category selection dropdown
   const handleCategoryChange = (e) => {
-    setCategory(e.target.value); // Update the category state with the selected value
+    const selectedValue = e.target.value;
+
+    const newCategory = CATEGORY_OPTIONS.find(
+      (option) => option.value === selectedValue
+    );
+
+    if (newCategory) {
+      setcategory(newCategory);
+    } else {
+      // Handle the case where the selected value is not found in the CATEGORY_OPTIONS array
+      console.error(`Category with value "${selectedValue}" not found.`);
+    }
   };
 
   // Function to handle changes in the difficulty selection dropdown
@@ -78,8 +91,7 @@ const Question = (props) => {
   };
 
   // Render the component conditionally based on the loading state and isShowing flag
-  return loading ? (
-    // Show the loader while fetching data
+  return store3.loading ? (
     <div className="loader-container">
       <Oval
         height={80}
@@ -93,8 +105,7 @@ const Question = (props) => {
       />
     </div>
   ) : (
-    // Show the setup form if data is not loading and isShowing is true
-    isShowing && (
+    store3.pageNumber === QUIZ_PAGE && (
       <div className="Application">
         <main className="style">
           <section className="quiz quiz-small">
@@ -120,19 +131,14 @@ const Question = (props) => {
                   id="category"
                   className="form-input"
                   onChange={handleCategoryChange}
-                  defaultValue={category}
+                  value={category.value}
                 >
-                  {CATEGORY_OPTIONS.map(function a(option) {
+                  {CATEGORY_OPTIONS.map((option) => (
                     <option key={option.value} value={option.value}>
                       {option.label}
-                    </option>;
-                  })}
+                    </option>
+                  ))}
                   ;
-                  {/* export const CATEGORY_OPTIONS = [
-                      { value: "21", label: "sports" },
-                      { value: "23", label: "history" },
-                      { value: "24", label: "politics" },
-                  ]; */}
                 </select>
               </div>
               <div className="form-control">
