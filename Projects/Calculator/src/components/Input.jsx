@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from './Button';
 import './input.css';
-function Keypad({
+function Input({
   clearResult,
   toggleSign,
   handleOperator,
